@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9-slim'
-            args '-u root'
-        }
-    }
+    agent any
 
     environment {
         IMAGE_NAME = "python-jenkins-demo"
@@ -21,7 +16,11 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh '''
+                apt-get update
+                apt-get install -y python3 python3-pip
+                pip3 install -r requirements.txt
+                '''
             }
         }
 
