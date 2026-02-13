@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.9-slim'
+            args '-u root'
+        }
+    }
 
     environment {
         IMAGE_NAME = "python-jenkins-demo"
@@ -43,6 +48,15 @@ pipeline {
         }
     }
 
+    post {
+        success {
+            echo 'Pipeline executed successfully 🎉'
+        }
+        failure {
+            echo 'Pipeline failed ❌'
+        }
+    }
+}
     post {
         success {
             echo 'Pipeline executed successfully 🎉'
